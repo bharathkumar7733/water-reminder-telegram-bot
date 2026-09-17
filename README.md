@@ -103,24 +103,26 @@ water_reminder/
 
 ---
 
-## ☁️ Deploying the Telegram Bot to Render (24/7 Free)
+## ☁️ Deploying the Telegram Bot to Render (100% Free 24/7)
 
 To keep the Telegram bot running 24/7 without needing your laptop powered on:
 
-1. **Push this repository to your GitHub.**
-2. Go to **[Render.com](https://render.com)** and create a **New Background Worker**.
-3. Link your GitHub repository.
-4. Set the following settings:
+1. **Go to [Render.com](https://render.com)** and sign in.
+2. Click **New +** ➡️ **Web Service** *(Note: Select **Web Service**, NOT Background Worker, to get the 100% Free tier!)*
+3. Connect your GitHub repository: **`bharathkumar7733/water-reminder-telegram-bot`**.
+4. Configure the settings:
+   * **Name:** `water-reminder-bot`
    * **Runtime:** `Python 3`
    * **Build Command:** `pip install -r requirements.txt`
    * **Start Command:** `python bot.py`
+   * **Instance Type:** Select **Free ($0/month)** 🎁
 5. Under **Environment Variables**, add:
    * `TELEGRAM_BOT_TOKEN` = `your_telegram_bot_token`
    * `BOT_USERNAME` = `Bharath_water_remainderbot`
-   * `TIMEZONE_OFFSET_HOURS` = `5.5` *(for IST, or your local offset)*
-6. Click **Create Background Worker**.
+   * `TIMEZONE_OFFSET_HOURS` = `5.5` *(for IST)*
+6. Click **Create Web Service**!
 
-Your bot is now live 24/7 in the cloud! 🚀
+Your bot is now live 24/7 in the cloud for free! 🚀
 
 ---
 

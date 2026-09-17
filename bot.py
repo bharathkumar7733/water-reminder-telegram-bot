@@ -244,9 +244,35 @@ def poll_updates():
             logger.error(f"Unexpected error in polling: {e}")
             time.sleep(3)
 
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain; charset=utf-8")
+        self.end_headers()
+        self.wfile.write(b"AquaAlert Telegram Bot is running live 24/7!")
+
+    def log_message(self, format, *args):
+        # Silence access logs to keep terminal clean
+        return
+
+def run_health_server():
+    port = int(os.getenv("PORT", "10000"))
+    try:
+        server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+        logger.info(f"Render Web Service health check listening on port {port} (Free Tier compatible).")
+        server.serve_forever()
+    except Exception as e:
+        logger.warning(f"Could not start health check HTTP server on port {port}: {e}")
+
 def main():
     database.init_db()
     
+    # Start health check server for Render Web Service (Free Tier)
+    http_thread = threading.Thread(target=run_health_server, daemon=True)
+    http_thread.start()
+
     # Start scheduler daemon thread
     scheduler_thread = threading.Thread(target=reminder_scheduler_loop, daemon=True)
     scheduler_thread.start()
